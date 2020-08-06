@@ -8,7 +8,7 @@ Planned effects:
 - Conveyor Belts
 - Toxic Gas / Damage-over-Time
 
-If the GUI doesnt work, you can also directly edit the .asm file I've added. It's kind of a hassle though, but here's what you have to do to manually add a box:
+If the GUI doesnt work, you can also directly edit the .asm file I've added. It's kind of a hassle though, but here's what you have to do to manually add a box (only change the Data-Section at the top):
 - remove every ".byte 0xFF" entry, aswell as the ".halfword 0x6666" one
 - write 2 .byte entries that represent the Room-ID and the Data-Size (.byte = 1, .halfword = 2) of the effect Box
 - write 6 .halfword entries that represent the rectangular bounds in Hex
