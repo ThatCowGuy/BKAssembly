@@ -1,2 +1,3 @@
 # BKAssembly
-GUI to customize assembly files that can be injected into BK
+
+Compile the source code with ant.

@@ -1,0 +1,44 @@
+<project name="BKAssembly" default="default" basedir=".">
+	
+	<!-- name of the project as a property -->
+	<property name="p_name" value="BKAssembly"/>
+	
+	<!-- locations -->
+	<property name="BUILD" value="build"/>
+	<property name="SOURCE" value="source"/>
+	
+	<!-- default target that is called when typing "ant" -->
+	<target name="default" depends="jarPacking"/>
+	
+    <!-- jarPacking -->
+	<target name="jarPacking" depends="compilations">
+		<jar jarfile="${p_name}.jar" basedir="${BUILD}">
+			<manifest>
+				<attribute name="Main-Class" value="GUI"/>
+			</manifest>
+		</jar>
+	</target>
+	
+    <!-- compilations -->
+	<target name="compilations" depends="clean, prep">
+		<!-- ant's javac task recursively goes through packages -->
+		<javac includeantruntime="false" srcdir="${SOURCE}" destdir="${BUILD}"/>
+	</target>
+	
+	<target name="prep">
+		<!-- timestamp creation -->
+		<tstamp/>
+		<!-- recreate build directory -->
+		<mkdir dir="${BUILD}"/>
+		<echo message="Created build directory"/>
+	</target>
+	
+	<!-- clean target "ant clean" -->
+	<target name="clean">
+		<!-- recreating the Doc Directory if neccessary -->
+		<delete dir="${DOC}"/>
+		<delete dir="${BUILD}"/>
+		<delete file="${p_name}.jar"/>
+	</target>
+	
+</project>
