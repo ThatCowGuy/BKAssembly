@@ -17,28 +17,28 @@ public class HitboxElement
 
     public String       type;
     public JLabel       type_label;
-    public JComboBox    level_id_box;
-    public Hex          level_id;
-    public Hex          data_size;
-    public Hex          type_value;
+    public JComboBox    room_id_box;
+    public Hex          room_id;
+    public Hex          struct_size;
+    public Hex          effect_id;
     public Hex          special_size;
 
     public Hex x1;
-    public Hex x2;
     public Hex y1;
-    public Hex y2;
     public Hex z1;
+    public Hex x2;
+    public Hex y2;
     public Hex z2;
     public JLabel       x1_label;
     public JTextField   x1_textf;
-    public JLabel       x2_label;
-    public JTextField   x2_textf;
     public JLabel       y1_label;
     public JTextField   y1_textf;
-    public JLabel       y2_label;
-    public JTextField   y2_textf;
     public JLabel       z1_label;
     public JTextField   z1_textf;
+    public JLabel       x2_label;
+    public JTextField   x2_textf;
+    public JLabel       y2_label;
+    public JTextField   y2_textf;
     public JLabel       z2_label;
     public JTextField   z2_textf;
 
@@ -62,30 +62,35 @@ public class HitboxElement
 
     public int index;
 
+
+
+
     // constructors
-    public HitboxElement(int id, int x1, int x2, int y1, int y2, int z1, int z2, int v1, int v2, int v3, int v4)
+    public HitboxElement(int id, float x1, float y1, float z1, float x2, float y2, float z2,
+                         float v1, float v2, float v3, float v4)
     {
-        this.level_id = new Hex(id, 2);
-        this.x1 = new Hex(x1, 4);
-        this.x2 = new Hex(x2, 4);
-        this.y1 = new Hex(y1, 4);
-        this.y2 = new Hex(y2, 4);
-        this.z1 = new Hex(z1, 4);
-        this.z2 = new Hex(z2, 4);
-        this.v1 = new Hex(v1, 4);
-        this.v2 = new Hex(v2, 4);
-        this.v3 = new Hex(v3, 4);
-        this.v4 = new Hex(v4, 4);
+        this.room_id = new Hex(id, 2);
+        this.x1 = new Hex(x1, 8);
+        this.y1 = new Hex(y1, 8);
+        this.z1 = new Hex(z1, 8);
+        this.x2 = new Hex(x2, 8);
+        this.y2 = new Hex(y2, 8);
+        this.z2 = new Hex(z2, 8);
+        this.v1 = new Hex(v1, 8);
+        this.v2 = new Hex(v2, 8);
+        this.v3 = new Hex(v3, 8);
+        this.v4 = new Hex(v4, 8);
         this.value_init = true;
     }
-    public HitboxElement(String id, String x1, String x2, String y1, String y2, String z1, String z2, String v1, String v2, String v3, String v4)
+    public HitboxElement(String id, String x1, String y1, String z1, String x2, String y2, String z2,
+                         String v1, String v2, String v3, String v4)
     {
-        this.level_id = new Hex(id);
+        this.room_id = new Hex(id);
         this.x1 = new Hex(x1);
-        this.x2 = new Hex(x2);
         this.y1 = new Hex(y1);
-        this.y2 = new Hex(y2);
         this.z1 = new Hex(z1);
+        this.x2 = new Hex(x2);
+        this.y2 = new Hex(y2);
         this.z2 = new Hex(z2);
         this.v1 = new Hex(v1);
         this.v2 = new Hex(v2);
@@ -95,12 +100,12 @@ public class HitboxElement
     }
     public HitboxElement(java.util.List<Hex> hexlist)
     {
-        this.level_id = hexlist.get(0);
+        this.room_id = hexlist.get(0);
         this.x1 = hexlist.get(0);
-        this.x2 = hexlist.get(1);
-        this.y1 = hexlist.get(2);
-        this.y2 = hexlist.get(3);
-        this.z1 = hexlist.get(4);
+        this.y1 = hexlist.get(1);
+        this.z1 = hexlist.get(2);
+        this.x2 = hexlist.get(3);
+        this.y2 = hexlist.get(4);
         this.z2 = hexlist.get(5);
         this.v1 = hexlist.get(6);
         this.v2 = hexlist.get(7);
@@ -110,12 +115,12 @@ public class HitboxElement
     }
     public HitboxElement()
     {
-        this.level_id = new Hex("01");
+        this.room_id = new Hex("01");
         this.x1 = new Hex("0000");
-        this.x2 = new Hex("0000");
         this.y1 = new Hex("0000");
-        this.y2 = new Hex("0000");
         this.z1 = new Hex("0000");
+        this.x2 = new Hex("0000");
+        this.y2 = new Hex("0000");
         this.z2 = new Hex("0000");
         this.v1 = new Hex("0000");
         this.v2 = new Hex("0000");
@@ -131,68 +136,66 @@ public class HitboxElement
             
         this.type_label.setText(this.type + " Hitbox");
 
-        this.level_id = new Hex(this.level_id_box.getSelectedIndex()+1, 2);
+        this.room_id = new Hex(this.room_id_box.getSelectedIndex()+1, 2);
 
-        this.x1 = new Hex(Integer.parseInt(this.x1_textf.getText()), 4);
-        this.x1_textf.setText(""+this.x1.complement);
-        this.x2 = new Hex(Integer.parseInt(this.x2_textf.getText()), 4);
-        this.x2_textf.setText(""+this.x2.complement);
+        this.x1 = new Hex(this.x1_textf.getText(), 8, true);
+        this.x1_textf.setText(""+this.x1.printFloat());
+        this.y1 = new Hex(this.y1_textf.getText(), 8, true);
+        this.y1_textf.setText(""+this.y1.printFloat());
+        this.z1 = new Hex(this.z1_textf.getText(), 8, true);
+        this.z1_textf.setText(""+this.z1.printFloat());
 
-        this.y1 = new Hex(Integer.parseInt(this.y1_textf.getText()), 4);
-        this.y1_textf.setText(""+this.y1.complement);
-        this.y2 = new Hex(Integer.parseInt(this.y2_textf.getText()), 4);
-        this.y2_textf.setText(""+this.y2.complement);
-
-        this.z1 = new Hex(Integer.parseInt(this.z1_textf.getText()), 4);
-        this.z1_textf.setText(""+this.z1.complement);
-        this.z2 = new Hex(Integer.parseInt(this.z2_textf.getText()), 4);
-        this.z2_textf.setText(""+this.z2.complement);
+        this.x2 = new Hex(this.x2_textf.getText(), 8, true);
+        this.x2_textf.setText(""+this.x2.printFloat());
+        this.y2 = new Hex(this.y2_textf.getText(), 8, true);
+        this.y2_textf.setText(""+this.y2.printFloat());
+        this.z2 = new Hex(this.z2_textf.getText(), 8, true);
+        this.z2_textf.setText(""+this.z2.printFloat());
         
-        this.v1 = new Hex(Integer.parseInt(this.v1_textf.getText()), 4);
-        this.v1_textf.setText(""+this.v1.complement);
-        this.v2 = new Hex(Integer.parseInt(this.v2_textf.getText()), 4);
-        this.v2_textf.setText(""+this.v2.complement);
-        this.v3 = new Hex(Integer.parseInt(this.v3_textf.getText()), 4);
-        this.v3_textf.setText(""+this.v3.complement);
-        this.v4 = new Hex(Integer.parseInt(this.v4_textf.getText()), 4);
-        this.v4_textf.setText(""+this.v4.complement);
+        this.v1 = new Hex(this.v1_textf.getText(), 8, true);
+        this.v1_textf.setText(""+this.v1.printFloat());
+        this.v2 = new Hex(this.v2_textf.getText(), 8, true);
+        this.v2_textf.setText(""+this.v2.printFloat());
+        this.v3 = new Hex(this.v3_textf.getText(), 8, true);
+        this.v3_textf.setText(""+this.v3.printFloat());
+        this.v4 = new Hex(this.v4_textf.getText(), 8, true);
+        this.v4_textf.setText(""+this.v4.printFloat());
 
         this.place(this.x, this.y, index);
     }
 
-    public void initGUI(String type, String[] level_id_list)
+    public void initGUI(String type, String[] room_id_list)
     {
         if (this.value_init == false)
             return;
 
         this.type = type;
         this.type_label = new JLabel(this.type + " Hitbox");
-        this.level_id_box = new JComboBox(level_id_list);
-        this.level_id_box.setSelectedIndex((int)this.level_id.value-1);
+        this.room_id_box = new JComboBox(room_id_list);
+        this.room_id_box.setSelectedIndex((int)this.room_id.value-1);
 
         this.x1_label = new JLabel("x_lo :");
-        this.x2_label = new JLabel("x_hi :");
-
         this.y1_label = new JLabel("y_lo :");
-        this.y2_label = new JLabel("y_hi :");
-
         this.z1_label = new JLabel("z_lo :");
+
+        this.x2_label = new JLabel("x_hi :");
+        this.y2_label = new JLabel("y_hi :");
         this.z2_label = new JLabel("z_hi :");
 
-        this.x1_textf = new JTextField("" + this.x1.complement);
-        this.x2_textf = new JTextField("" + this.x2.complement);
-        
-        this.y1_textf = new JTextField("" + this.y1.complement);
-        this.y2_textf = new JTextField("" + this.y2.complement);
-        
-        this.z1_textf = new JTextField("" + this.z1.complement);
-        this.z2_textf = new JTextField("" + this.z2.complement);
+        this.x1_textf = new JTextField("" + this.x1.printFloat());
+        this.y1_textf = new JTextField("" + this.y1.printFloat());
+        this.z1_textf = new JTextField("" + this.z1.printFloat());
+
+        this.x2_textf = new JTextField("" + this.x2.printFloat());
+        this.y2_textf = new JTextField("" + this.y2.printFloat());
+        this.z2_textf = new JTextField("" + this.z2.printFloat());
+
         switch(this.type)
         {
             case("Wind"):
-                this.data_size = new Hex(22, 2);
-                this.type_value = new Hex(1, 2);
-                this.special_size = new Hex(6, 2);
+                this.struct_size = new Hex(40, 2);
+                this.effect_id = new Hex(1, 2);
+                this.special_size = new Hex(12, 2);
                 this.v1_label = new JLabel("Wind x :");
                 this.v2_label = new JLabel("Wind y :");
                 this.v3_label = new JLabel("Wind z :");
@@ -200,8 +203,8 @@ public class HitboxElement
                 break;
             
             default:
-                this.data_size = new Hex(255, 2);
-                this.type_value = new Hex(255, 2);
+                this.struct_size = new Hex(255, 2);
+                this.effect_id = new Hex(255, 2);
                 this.special_size = new Hex(255, 2);
                 this.v1_label = new JLabel("Inv.Type");
                 this.v2_label = new JLabel("Inv.Type");
@@ -209,10 +212,10 @@ public class HitboxElement
                 this.v4_label = new JLabel("Inv.Type");
                 break;
         }
-        this.v1_textf = new JTextField("" + this.v1.complement);
-        this.v2_textf = new JTextField("" + this.v2.complement);
-        this.v3_textf = new JTextField("" + this.v3.complement);
-        this.v4_textf = new JTextField("" + this.v4.complement);
+        this.v1_textf = new JTextField("" + this.v1.printFloat());
+        this.v2_textf = new JTextField("" + this.v2.printFloat());
+        this.v3_textf = new JTextField("" + this.v3.printFloat());
+        this.v4_textf = new JTextField("" + this.v4.printFloat());
         
         this.remove_b = new JButton("X");
 
@@ -241,7 +244,7 @@ public class HitboxElement
 
         this.type_label.setBounds(x, y+index*element_h+0*(dy+h), label_w*2, h);
 
-        this.level_id_box.setBounds(x-8, y+index*element_h+1*(dy+h)-2, label_w*5, h);
+        this.room_id_box.setBounds(x-8, y+index*element_h+1*(dy+h)-2, label_w*5, h);
         this.remove_b.setBounds(x+x_off, y+index*element_h+1*(dy+h)-2, button_w, h);
         this.remove_b.setMargin(new Insets(1, 2, 3, 2)); // TLBR
 
@@ -280,8 +283,8 @@ public class HitboxElement
 
         mainframe.add(this.type_label);
 
-        this.level_id_box.addActionListener(mainframe);
-        mainframe.add(this.level_id_box);
+        this.room_id_box.addActionListener(mainframe);
+        mainframe.add(this.room_id_box);
 
         mainframe.add(this.x1_label);
         mainframe.add(this.x2_label);
@@ -323,7 +326,7 @@ public class HitboxElement
     {
         mainframe.remove(this.type_label);
 
-        mainframe.remove(this.level_id_box);
+        mainframe.remove(this.room_id_box);
 
         mainframe.remove(this.x1_label);
         mainframe.remove(this.x2_label);
@@ -359,28 +362,27 @@ public class HitboxElement
             return "VALUES UNITIALIZED";
 
         String result = "";
-        result += ".byte 0x" + this.level_id + "\n";
-        result += ".byte 0x" + this.data_size + "\n";
-        result += ".halfword 0x" + this.x1 + "\n";
-        result += ".halfword 0x" + this.x2 + "\n";
-        result += ".halfword 0x" + this.y1 + "\n";
-        result += ".halfword 0x" + this.y2 + "\n";
-        result += ".halfword 0x" + this.z1 + "\n";
-        result += ".halfword 0x" + this.z2 + "\n";
-        result += ".byte 0x" + this.type_value + "\n";
+        result += ".byte 0x" + this.room_id + "\n";
+        result += ".byte 0x" + this.struct_size + "\n";
+        result += ".byte 0x" + this.effect_id + "\n";
         result += ".byte 0x" + this.special_size + "\n";
+        result += ".word 0x" + this.x1 + "\n";
+        result += ".word 0x" + this.y1 + "\n";
+        result += ".word 0x" + this.z1 + "\n";
+        result += ".word 0x" + this.x2 + "\n";
+        result += ".word 0x" + this.y2 + "\n";
+        result += ".word 0x" + this.z2 + "\n";
         switch(this.type)
         {
             case("Wind"):
-                    result += ".halfword 0x" + this.v1 + "\n";
-                    result += ".halfword 0x" + this.v2 + "\n";
-                    result += ".halfword 0x" + this.v3 + "\n";
+                    result += ".word 0x" + this.v1 + "\n";
+                    result += ".word 0x" + this.v2 + "\n";
+                    result += ".word 0x" + this.v3 + "\n";
                 break;
             
             default:
                 break;
         }
-
         return result;
     }
     public java.util.List<Hex> toData()
@@ -390,19 +392,17 @@ public class HitboxElement
 
         java.util.List<Hex> hexlist = new ArrayList<Hex>();
 
-        hexlist.add(this.level_id);
-        hexlist.add(this.data_size);
-        
+        hexlist.add(this.room_id);
+        hexlist.add(this.struct_size);
+        hexlist.add(this.effect_id);
+        hexlist.add(this.special_size);
         hexlist.add(this.x1);
-        hexlist.add(this.x2);
         hexlist.add(this.y1);
-        hexlist.add(this.y2);
         hexlist.add(this.z1);
+        hexlist.add(this.x2);
+        hexlist.add(this.y2);
         hexlist.add(this.z2);
         
-        hexlist.add(this.type_value);
-        hexlist.add(this.special_size);
-
         switch(this.type)
         {
             case("Wind"):
@@ -414,7 +414,6 @@ public class HitboxElement
             default:
                 break;
         }
-
         return hexlist;
     }
 }

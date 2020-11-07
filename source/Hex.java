@@ -21,7 +21,7 @@ public class Hex
         }
         this.value = val;
         this.calcComplement();
-        this.hex = Dec2Hex();
+        this.hex = Dec2Hex(digits);
     }
     public Hex(long val, int digits)
     {
@@ -32,42 +32,75 @@ public class Hex
         }
         this.value = val;
         this.calcComplement();
-        this.hex = Dec2Hex();
+        this.hex = Dec2Hex(digits);
+    }
+    public Hex(float val, int digits)
+    {
+        this.value = Float.floatToIntBits(val);
+        this.digits = digits;
+        if (this.value < 0)
+        {
+            this.value = (int)Math.pow(16, digits) + this.value;
+        }
+        this.calcComplement();
+        this.hex = Dec2Hex(digits);
     }
     public Hex(String s)
     {
         // get rid of whitespaces and special shit
         s = s.replaceAll(" ","");
 
-        if (s.contains("0x") == true)
-            s = s.substring(2);
-
-        this.digits = s.length();
-        this.value = Hex.Hex2Dec(s);
+        if (s.contains(".") == true)
+        {
+            float fval = new Float(s);
+            this.digits = 8;
+            this.value = Float.floatToIntBits(fval);
+            if (this.value < 0)
+            {
+                this.value = (int)Math.pow(16, digits) + this.value;
+            }
+        }
+        else
+        {
+            if (s.contains("0x") == true)
+                s = s.substring(2);
+            this.digits = s.length();
+            this.value = Hex.Hex2Dec(s);
+        }
         this.calcComplement();
-        this.hex = Dec2Hex();
+        this.hex = Dec2Hex(8);
     }
-    public Hex(String s, long digits)
+    public Hex(String s, int digits, boolean isfloat)
     {
         // get rid of whitespaces and special shit
         s = s.replaceAll(" ","");
 
-        if (s.contains("0x") == true)
-            s = s.substring(2);
-
-        while (s.length() < digits)
-            s += "0";
-
-        this.digits = s.length();
-        this.value = Hex.Hex2Dec(s);
+        if (isfloat == true)
+        {
+            float fval = new Float(s);
+            this.value = Float.floatToIntBits(fval);
+        }
+        else
+        {
+            if (s.contains("0x") == true)
+                s = s.substring(2);
+            while (s.length() < digits)
+                s += "0";
+            this.value = Hex.Hex2Dec(s);
+        }
+        this.digits = digits;
         this.calcComplement();
-        this.hex = Dec2Hex();
+        this.hex = Dec2Hex(digits);
     }
 
     @Override
     public String toString()
     {
         return this.hex;
+    }
+    public String printFloat()
+    {
+        return ""+Float.intBitsToFloat((int)this.value);
     }
 
     // calc the 2's complement
@@ -140,27 +173,25 @@ public class Hex
 
     String Dec2Hex()
     {
-        long temp_val = this.value;
-        long temp_size = this.digits - 1;
-        String temp_str = "";
-        for (temp_size = temp_size; temp_size >= 0; temp_size--)
+        return Integer.toHexString((int)value).toUpperCase();
+    }
+    String Dec2Hex(long digits)
+    {
+        String res = Integer.toHexString((int)value).toUpperCase();
+        while (res.length() < digits)
         {
-            int div = (int)(temp_val / Math.pow(16, temp_size));
-            temp_val -= (long)(div * Math.pow(16, temp_size));
-            temp_str += Hex.hextable[div];
+            res = "0" + res;
         }
-        return temp_str;
+        return res;
     }
     static String Dec2Hex(long value, long digits)
     {
-        String temp_str = "";
-        for (digits = digits-1; digits >= 0; digits--)
+        String res = Integer.toHexString((int)value).toUpperCase();
+        while (res.length() < digits)
         {
-            int div = (int)(value / Math.pow(16, digits));
-            value -= (long)(div * Math.pow(16, digits));
-            temp_str += Hex.hextable[div];
+            res = "0" + res;
         }
-        return temp_str;
+        return res;
     }
 
     long Hex2Dec()

@@ -27,7 +27,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener, Adjus
 
     public GUI()
     {
-        super(" BKAssembly 1.0");
+        super(" BKAssembly 1.1");
         this.bkasm = new BKAssembler();
         init_level_id_list();
         int x_off = 0;
