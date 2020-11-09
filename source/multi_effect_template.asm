@@ -6,8 +6,8 @@
 [ADDR_XZY_VEL]:         0x8037C4B8
 [ADDR_MAP]:             0x8037E8F5  //# 1B
 [DATA]:                 0x8046B8D0
-[BUTTON_ARR_1]:         0x802712B8  //# 1B (ABZS and DPad-UDLR)
-[BUTTON_ARR_2]:         0x802712B9  //# 1B (??LR and C-UDLR)
+[BUTTON_ARR_1]:         0x802812B8  //# 1B (ABZS and DPad-UDLR)
+[BUTTON_ARR_2]:         0x802812B9  //# 1B (??LR and C-UDLR)
 
 [HIJACK_JAL_LOC]:       0x8024E7D4
 [HIJACK_RA]:            0x8023E000
@@ -95,7 +95,6 @@ EFFECT_LOOP:
     //# perform box-check: V0 = *A0 in [*A1:*A2]
     JAL 0x802584FC
     NOP
-        ORI V0, R0, 0x1
     BNE V0, R0, GET_EFFECT
     NOP
 
